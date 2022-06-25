@@ -12,8 +12,9 @@ function print_help
 {
     command=$(basename $0)
     cat >&2 <<EOF
-syntax: $command -t terms -m max-sum
+syntax: $command [-d] -t terms -m max-sum
 
+        -d enables debugging messages (should be first if used)
         -m specifies the maximum sum (inclusive)
         -t specifies the number of terms
 
@@ -55,32 +56,39 @@ while getopts "dm:t:" option; do
 done
 
 #--------------------------------------------------------------------
+
 TMPFILE=$(mktemp)
-truncate -s 0 $TMPFILE
+declare -i we_have_printed_a_result=0
+declare -i iterations=0
 
-# array of terms
-declare -A terms
+until (( $we_have_printed_a_result )); do
 
-# accumulator
-declare -i accum=0
+    iterations=$((iterations+1))
+    truncate -s 0 $TMPFILE
 
-for (( i=1; i <= $num_terms; i++ )); do
-    declare -i this_term=$(( $RANDOM % 10 ))
-    debug_msg \$this_term=$this_term
-    echo $this_term >> $TMPFILE
+    # accumulator
+    declare -i accum=0
+    declare -i i
 
-    terms[$i]=$this_term
-    accum=$(( accum + $this_term ))
+    for (( i=1; i <= $num_terms; i++ )); do
+        declare -i this_term=$(( $RANDOM % 10 ))
+        debug_msg \$this_term=$this_term
+
+        echo $this_term >> $TMPFILE
+        accum=$(( accum + $this_term ))
+    done
+
+    debug_msg \$accum=$accum
+    echo $accum >> $TMPFILE
+
+    if (( $accum <= $max_sum )); then
+        cat $TMPFILE
+        we_have_printed_a_result=1
+    fi
 done
 
-debug_msg \$accum=$accum
-echo $accum >> $TMPFILE
-
-if (( $accum <= $max_sum )); then
-    cat $TMPFILE
-fi
-
 rm -f $TMPFILE
+debug_msg \$iterations=$iterations
 
 #--------------------------------------------------------------------
 # vim: sw=4 ts=4 et
