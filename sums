@@ -7,6 +7,11 @@ function debug_msg
     fi
 }
 
+function debug_line
+{
+    debug_msg ----------
+}
+
 #--------------------------------------------------------------------
 function print_help
 {
@@ -63,6 +68,7 @@ declare -i iterations=0
 
 until (( $we_have_printed_a_result )); do
 
+    debug_line
     iterations=$((iterations+1))
     truncate -s 0 $TMPFILE
 
@@ -82,6 +88,7 @@ until (( $we_have_printed_a_result )); do
     echo $accum >> $TMPFILE
 
     if (( $accum <= $max_sum )); then
+        debug_line
         cat $TMPFILE
         we_have_printed_a_result=1
     fi
