@@ -92,9 +92,7 @@ until (( $we_have_printed_a_result )); do
 
     debug_msg \$accum=$accum
 
-    if (( $pause_before_answer )); then
-        :
-    else
+    if ! (( $pause_before_answer )); then
         echo $accum >> $TMPFILE
     fi
 
