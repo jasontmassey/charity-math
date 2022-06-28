@@ -17,16 +17,16 @@ function print_help
 {
     command=$(basename $0)
     cat >&2 <<EOF
-syntax: $command [-dp] [-n terms] [-m max-sum]
+syntax: $command [-dp] [-n num-terms] [-s max-sum] [-t max-term]
+        $command -h
 
         -d  enables debugging messages (should be first if used)
-        -m  specifies the maximum sum (inclusive)(default=10)
+        -h  displays this help
         -n  specifies the number of terms (default=2)
         -p  pause before displaying answer
+        -s  specifies the maximum sum (inclusive) (default=10)
+        -t  specifies the maximum term (inclusive) (default=10)
 
-        for example:
-
-        $command -t 3 -m 25
 EOF
 }
 
@@ -34,28 +34,34 @@ EOF
 #--------------------------------------------------------------------
 # MAIN
 #--------------------------------------------------------------------
+
+# Globals
 debugging=0
 max_sum=10
+max_term=10
 num_terms=2
 pause_before_answer=0
 
-if [[ $# == 0 ]]; then
-    print_help
-    exit 0
-fi
-
 # parse command-line options
-while getopts "pdm:n:" option; do
+while getopts "hpdt:n:s:" option; do
     case $option in
         d)
             debugging=1
             debug_msg \$debugging=$debugging
             ;;
+        h)
+            print_help
+            exit 0
+            ;;
         p)
             pause_before_answer=1
             debug_msg \$pause_before_answer=$pause_before_answer
             ;;
-        m)
+        t)
+            max_term=$OPTARG
+            debug_msg \$max_term=$max_term
+            ;;
+        s)
             max_sum=$OPTARG
             debug_msg \$max_sum=$max_sum
             ;;
@@ -83,7 +89,7 @@ until (( $we_have_printed_a_result )); do
     declare -i i
 
     for (( i=1; i <= $num_terms; i++ )); do
-        declare -i this_term=$(( $RANDOM % 10 ))
+        declare -i this_term=$(( RANDOM % (max_term+1) ))
         debug_msg \$this_term=$this_term
 
         echo $this_term >> $TMPFILE
