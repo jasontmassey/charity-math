@@ -17,8 +17,7 @@ function print_help
 {
     command=$(basename $0)
     cat >&2 <<EOF
-syntax: $command [-dp] [-n num-terms] [-s max-sum] [-t max-term]
-        $command -h
+syntax: $command [-dhp] [-n num-terms] [-s max-sum] [-t max-term]
 
         -d  enables debugging messages (should be first if used)
         -h  displays this help
