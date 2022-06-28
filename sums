@@ -17,10 +17,11 @@ function print_help
 {
     command=$(basename $0)
     cat >&2 <<EOF
-syntax: $command [-d] -t terms -m max-sum
+syntax: $command [-dp] -t terms -m max-sum
 
         -d enables debugging messages (should be first if used)
         -m specifies the maximum sum (inclusive)
+        -p pause before displaying answer
         -t specifies the number of terms
 
         for example:
@@ -36,6 +37,7 @@ EOF
 debugging=0
 max_sum=0
 num_terms=0
+pause_before_answer=0
 
 if [[ $# == 0 ]]; then
     print_help
@@ -43,11 +45,15 @@ if [[ $# == 0 ]]; then
 fi
 
 # parse command-line options
-while getopts "dm:t:" option; do
+while getopts "pdm:t:" option; do
     case $option in
         d)
             debugging=1
             debug_msg \$debugging=$debugging
+            ;;
+        p)
+            pause_before_answer=1
+            debug_msg \$pause_before_answer=$pause_before_answer
             ;;
         m)
             max_sum=$OPTARG
@@ -85,12 +91,22 @@ until (( $we_have_printed_a_result )); do
     done
 
     debug_msg \$accum=$accum
-    echo $accum >> $TMPFILE
+
+    if (( $pause_before_answer )); then
+        :
+    else
+        echo $accum >> $TMPFILE
+    fi
 
     if (( $accum <= $max_sum )); then
         debug_line
         cat $TMPFILE
         we_have_printed_a_result=1
+
+        if (( $pause_before_answer )); then
+            read -p "press enter for answer: "
+            echo $accum
+        fi
     fi
 done
 
