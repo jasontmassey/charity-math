@@ -42,6 +42,11 @@ max_term=10
 num_terms=2
 pause_before_answer=0
 
+if [[ $# == 0 ]]; then
+    print_help
+    exit 0
+fi
+
 # parse command-line options
 while getopts "hpdt:n:s:" option; do
     case $option in
