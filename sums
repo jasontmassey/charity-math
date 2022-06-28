@@ -17,12 +17,12 @@ function print_help
 {
     command=$(basename $0)
     cat >&2 <<EOF
-syntax: $command [-dp] -t terms -m max-sum
+syntax: $command [-dp] [-n terms] [-m max-sum]
 
-        -d enables debugging messages (should be first if used)
-        -m specifies the maximum sum (inclusive)
-        -p pause before displaying answer
-        -t specifies the number of terms
+        -d  enables debugging messages (should be first if used)
+        -m  specifies the maximum sum (inclusive)(default=10)
+        -n  specifies the number of terms (default=2)
+        -p  pause before displaying answer
 
         for example:
 
@@ -35,8 +35,8 @@ EOF
 # MAIN
 #--------------------------------------------------------------------
 debugging=0
-max_sum=0
-num_terms=0
+max_sum=10
+num_terms=2
 pause_before_answer=0
 
 if [[ $# == 0 ]]; then
@@ -45,7 +45,7 @@ if [[ $# == 0 ]]; then
 fi
 
 # parse command-line options
-while getopts "pdm:t:" option; do
+while getopts "pdm:n:" option; do
     case $option in
         d)
             debugging=1
@@ -59,7 +59,7 @@ while getopts "pdm:t:" option; do
             max_sum=$OPTARG
             debug_msg \$max_sum=$max_sum
             ;;
-        t)
+        n)
             num_terms=$OPTARG
             debug_msg \$num_terms=$num_terms
             ;;
