@@ -21,9 +21,9 @@ syntax: $command [-dhp] [-n num-terms] [-s max-sum] [-t max-term]
 
         -d  enables debugging messages (should be first if used)
         -h  displays this help
-        -n  specifies the number of terms (default=2)
+        -n  specifies the number of terms          (default=2)
         -p  pause before displaying answer
-        -s  specifies the maximum sum (inclusive) (default=10)
+        -s  specifies the maximum sum  (inclusive) (default=10)
         -t  specifies the maximum term (inclusive) (default=10)
 
 EOF
