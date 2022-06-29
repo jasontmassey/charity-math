@@ -96,14 +96,14 @@ until (( $we_have_printed_a_result )); do
         declare -i this_term=$(( RANDOM % (max_term+1) ))
         debug_msg \$this_term=$this_term
 
-        echo $this_term >> $TMPFILE
+        printf "%3d\n" $this_term >> $TMPFILE
         accum=$(( accum + $this_term ))
     done
 
     debug_msg \$accum=$accum
 
     if ! (( $pause_before_answer )); then
-        echo $accum >> $TMPFILE
+        print "%3d\n" $accum >> $TMPFILE
     fi
 
     if (( $accum <= $max_sum )); then
@@ -113,7 +113,7 @@ until (( $we_have_printed_a_result )); do
 
         if (( $pause_before_answer )); then
             read -p "press enter for answer: "
-            echo $accum
+            printf "%3d\n" $accum
         fi
     fi
 done
