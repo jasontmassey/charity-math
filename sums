@@ -119,7 +119,7 @@ until (( $we_have_printed_a_result )); do
         we_have_printed_a_result=1
 
         if (( $pause_before_answer )); then
-            read -p "press enter for answer: "
+            read -p "-----"
             emit_number $accum
         fi
     fi
