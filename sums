@@ -7,9 +7,16 @@ function debug_msg
     fi
 }
 
+#--------------------------------------------------------------------
 function debug_line
 {
     debug_msg ----------
+}
+
+#--------------------------------------------------------------------
+function emit_number
+{
+    printf "%5d\n" $1
 }
 
 #--------------------------------------------------------------------
@@ -96,14 +103,14 @@ until (( $we_have_printed_a_result )); do
         declare -i this_term=$(( RANDOM % (max_term+1) ))
         debug_msg \$this_term=$this_term
 
-        printf "%3d\n" $this_term >> $TMPFILE
+        emit_number $this_term >> $TMPFILE
         accum=$(( accum + $this_term ))
     done
 
     debug_msg \$accum=$accum
 
     if ! (( $pause_before_answer )); then
-        print "%3d\n" $accum >> $TMPFILE
+        emit_number $accum >> $TMPFILE
     fi
 
     if (( $accum <= $max_sum )); then
@@ -113,7 +120,7 @@ until (( $we_have_printed_a_result )); do
 
         if (( $pause_before_answer )); then
             read -p "press enter for answer: "
-            printf "%3d\n" $accum
+            emit_number $accum
         fi
     fi
 done
