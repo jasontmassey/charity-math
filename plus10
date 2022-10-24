@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+#--------------------------------------------------------------------
+function debug_msg
+{
+    if [[ $debugging != 0 ]]; then
+        echo $* >&2
+    fi
+}
+
+#--------------------------------------------------------------------
+function debug_line
+{
+    debug_msg ----------
+}
+
+
+#--------------------------------------------------------------------
+function print_help
+{
+    command=$(basename $0)
+    cat >&2 <<EOF
+syntax: $command [-h] [-t term]
+
+        -h  displays this help
+        -t  specifies the maximum term (inclusive) (default=90)
+
+EOF
+}
+
+
+#--------------------------------------------------------------------
+# MAIN
+#--------------------------------------------------------------------
+
+# Globals
+max_term=90
+
+# parse command-line options
+while getopts "hpdt:n:s:" option; do
+    case $option in
+        h)
+            print_help
+            exit 0
+            ;;
+        t)
+            max_term=$OPTARG
+            debug_msg \$max_term=$max_term
+            ;;
+    esac
+done
+
+term=$((RANDOM % max_term))
+printf "%d + 10 = %d\n" $term $((term + 10))
+
+#--------------------------------------------------------------------
+# vim: sw=4 ts=4 et
