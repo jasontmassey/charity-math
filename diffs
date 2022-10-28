@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+#--------------------------------------------------------------------
+function debug_msg
+{
+    if [[ $debugging != 0 ]]; then
+        echo $* >&2
+    fi
+}
+
+#--------------------------------------------------------------------
+function debug_line
+{
+    debug_msg ----------
+}
+
+#--------------------------------------------------------------------
+function print_help
+{
+    command=$(basename $0)
+    cat >&2 <<EOF
+syntax: $command [-dhp] -m <max minuend>
+
+        -d  enables debugging messages (should be first if used)
+        -h  displays this help
+        -p  pause before displaying answer
+        -m  designate the max minuend
+
+EOF
+}
+
+#--------------------------------------------------------------------
+function emit_number
+{
+    printf "%5d\n" $1
+}
+
+
+#--------------------------------------------------------------------
+# MAIN
+#--------------------------------------------------------------------
+
+# Globals
+hrule="-----"
+debugging=0
+max_minuend=10
+pause_before_answer=0
+
+if [[ $# == 0 ]]; then
+    print_help
+    exit 0
+fi
+
+# parse command-line options
+while getopts "hpdm:" option; do
+    case $option in
+        d)
+            debugging=1
+            debug_msg \$debugging=$debugging
+            ;;
+        h)
+            print_help
+            exit 0
+            ;;
+        p)
+            pause_before_answer=1
+            debug_msg \$pause_before_answer=$pause_before_answer
+            ;;
+        m)
+            max_minuend=$OPTARG
+            debug_msg \$max_minuend=$max_minuend
+            ;;
+    esac
+done
+
+#--------------------------------------------------------------------
+
+minuend=$(( RANDOM % $max_minuend + 1))
+subtrahend=$(( RANDOM % ($minuend+1) ))
+difference=$(( minuend - subtrahend ))
+
+debug_msg minuend = $minuend
+debug_msg subtrahend = $subtrahend
+debug_msg difference = $difference
+
+emit_number $minuend
+emit_number $subtrahend
+
+if (( $pause_before_answer )); then
+    read -p $hrule
+else
+    echo $hrule
+fi
+
+emit_number $difference
+
+
+#--------------------------------------------------------------------
+# vim: sw=4 ts=4 et
