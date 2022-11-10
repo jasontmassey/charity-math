@@ -25,7 +25,12 @@ EOF
 #--------------------------------------------------------------------
 function emit_number
 {
-    printf "%5d\n" $1
+    if [[ $2 == '-' ]]; then
+        local s=$(printf "%c %d" "-" $1)
+        printf "%5s\n" "$s"
+    else
+        printf "%5d\n" $1
+    fi
 }
 
 
@@ -77,7 +82,7 @@ debug_msg subtrahend = $subtrahend
 debug_msg difference = $difference
 
 emit_number $minuend
-emit_number $subtrahend
+emit_number $subtrahend -
 
 if (( $pause_before_answer )); then
     read -p $hrule
