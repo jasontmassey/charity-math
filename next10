@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+random=$(( RANDOM % 91 ))
+
+printf "%d --> " $random
+
+nextten=$(echo $random | sed 's/[0-9]$/0/')
+
+echo $((nextten + 10))
