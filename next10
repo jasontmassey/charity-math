@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-random=$(( RANDOM % 91 ))
+random=$(( RANDOM % 99 ))
 
 printf "%d --> " $random
 
