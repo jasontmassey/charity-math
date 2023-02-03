@@ -1,4 +1,4 @@
-alias s='clear  ; ./sums -p -s 800 -n 2 -t 800'
+alias s='clear  ; ./sums -p -s 900 -n 2 -t 900'
 alias d='clear ; ./diffs  -p -m 100'
 
 alias n='clear ; ./next10'
