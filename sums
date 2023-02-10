@@ -21,9 +21,9 @@ function emit_number
     local format=""
 
     if (( $with_plus_sign )); then
-        format="+ %5d\n"
+        format="+ %4d\n"
     else
-        format="  %5d\n"
+        format="  %4d\n"
     fi
 
     printf "$format" $num
@@ -129,7 +129,7 @@ until (( $we_have_printed_a_result )); do
         we_have_printed_a_result=1
 
         if (( $pause_before_answer )); then
-            read -p "-------"
+            read -p "------"
             emit_number $accum
         fi
     fi
