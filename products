@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-f1=$((RANDOM % 10 +1))
-f2=$((RANDOM % 10 +1))
+f1=$((RANDOM % 11 ))
+f2=$((RANDOM % 11 ))
 
 echo $f1 x $f2
 
