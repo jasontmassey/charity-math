@@ -1,8 +1,11 @@
+alias 9='clear; shuf -n 1 nine-x '
+
+alias d='clear ; ./diffs  -p -m 100'
+alias p='clear ; ./products'
+
+alias nt='clear ; ./next10'
+alias pt='clear ; ./plus10'
+
 alias s2='clear  ; ./sums -p -s 999 -n 2 -t 999'
 alias s3='clear  ; ./sums -p -s 999 -n 3 -t  99'
 alias s='if (( RANDOM%100 <= 49 )) then s2; else s3; fi'
-
-alias d='clear ; ./diffs  -p -m 100'
-
-alias n='clear ; ./next10'
-alias p='clear ; ./plus10'
